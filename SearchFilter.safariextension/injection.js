@@ -52,7 +52,6 @@ function handleUpdateSettings(msg) {
   filter()
 }
 
-// Get selected text and return to global script
 function handleMessage(msg) {
   const name = msg.name
   switch (name) {
