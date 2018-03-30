@@ -31,7 +31,7 @@ function filter() {
       }
     }
     const title = titleElement.innerHTML
-    const summary = element.querySelector('.st').innerText
+    const summary = element.querySelector('.st') ? element.querySelector('.st').innerText : ''
     const title_summary = title + summary
     for (keyword of blockKeywords) {
       if (title_summary.indexOf(keyword) > -1) {
@@ -49,7 +49,7 @@ function handleUpdateSettings(msg) {
     ? msg.message['blockDomains'].split(',').map(s => s.replace(/^\s+|\s+$/, ''))
     : []
   showRemovalNotice = msg.message['showRemovalNotice']
-  document.addEventListener('DOMContentLoaded', () => filter())
+  filter()
 }
 
 // Get selected text and return to global script
@@ -68,4 +68,4 @@ function setup() {
   safari.self.tab.dispatchMessage('RequestForSettings')
 }
 
-setup()
+document.addEventListener('DOMContentLoaded', () => setup())
