@@ -62,7 +62,7 @@ function stringToArray(str) {
 function handleUpdateSettings(msg) {
   blockKeywords = stringToArray(msg.message['blockKeywords'])
   blockDomains = stringToArray(msg.message['blockDomains'])
-  showRemovalNotice = msg.message['showRemovalNotice']
+  showRemovalNotice = msg.message['showRemovalNotice'] || true
   onSettingsReceived()
 }
 
