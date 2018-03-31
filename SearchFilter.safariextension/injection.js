@@ -1,6 +1,7 @@
 let blockKeywords = []
 let blockDomains = []
 let showRemovalNotice = true
+let count = 0
 
 function createBanner(content) {
   var bannerElement = document.createElement('div')
@@ -11,9 +12,10 @@ function createBanner(content) {
 }
 
 function handleMatchedElement(element, matched) {
+  count += 1
   if (showRemovalNotice) {
     const banner = createBanner(
-      'This item has been removed because of the matched keyword ' + matched
+      'This page has been removed because of the matched keyword ' + matched
     )
     element.parentNode.replaceChild(banner, element)
   } else {
@@ -41,15 +43,27 @@ function filter() {
   })
 }
 
-function handleUpdateSettings(msg) {
-  blockKeywords = msg.message['blockKeywords']
-    ? msg.message['blockKeywords'].split(',').map(s => s.replace(/^\s+|\s+$/, ''))
-    : []
-  blockDomains = msg.message['blockDomains']
-    ? msg.message['blockDomains'].split(',').map(s => s.replace(/^\s+|\s+$/, ''))
-    : []
-  showRemovalNotice = msg.message['showRemovalNotice']
+function postprocess() {
+  if (count > 0) {
+    const resultStats = document.querySelector('#resultStats')
+    resultStats.innerHTML += 'without ' + count + ' removed results'
+  }
+}
+
+function onSettingsReceived() {
   filter()
+  postprocess()
+}
+
+function stringToArray(str) {
+  return str ? str.split(',').map(s => s.replace(/^\s+|\s+$/, '')) : []
+}
+
+function handleUpdateSettings(msg) {
+  blockKeywords = stringToArray(msg.message['blockKeywords'])
+  blockDomains = stringToArray(msg.message['blockDomains'])
+  showRemovalNotice = msg.message['showRemovalNotice']
+  onSettingsReceived()
 }
 
 function handleMessage(msg) {
