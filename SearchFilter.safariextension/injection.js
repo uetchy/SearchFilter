@@ -26,6 +26,10 @@ function handleMatchedElement(element, matched) {
 function filter() {
   Array.from(document.querySelectorAll('.g'), element => {
     const titleElement = element.querySelector('h3 > a')
+    if (!titleElement) {
+      return
+    }
+
     const url = titleElement.href
     for (domain of blockDomains) {
       if (url.indexOf(domain) > -1) {
@@ -62,7 +66,7 @@ function stringToArray(str) {
 function handleUpdateSettings(msg) {
   blockKeywords = stringToArray(msg.message['blockKeywords'])
   blockDomains = stringToArray(msg.message['blockDomains'])
-  showRemovalNotice = msg.message['showRemovalNotice'] || true
+  showRemovalNotice = msg.message['showRemovalNotice']
   onSettingsReceived()
 }
 
@@ -81,4 +85,6 @@ function setup() {
   safari.self.tab.dispatchMessage('RequestForSettings')
 }
 
-document.addEventListener('DOMContentLoaded', () => setup())
+if (window.top === window) {
+  document.addEventListener('DOMContentLoaded', () => setup())
+}
