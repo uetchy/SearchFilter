@@ -5,7 +5,7 @@
 	<key>Author</key>
 	<string>Yasuaki Uechi</string>
 	<key>Builder Version</key>
-	<string>13604.5.6</string>
+	<string>13605.1.33.1.2</string>
 	<key>CFBundleDisplayName</key>
 	<string>SearchFilter</string>
 	<key>CFBundleIdentifier</key>
@@ -33,6 +33,7 @@
 		<key>Whitelist</key>
 		<array>
 			<string>https://www.google.com/*</string>
+			<string>https://www.google.co.jp/*</string>
 		</array>
 	</dict>
 	<key>Description</key>
